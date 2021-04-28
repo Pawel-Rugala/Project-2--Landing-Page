@@ -48,11 +48,9 @@ const cb = (entries, observer) => {
   entries.forEach((ele) => {
     const el = document.querySelector(`#nav-${ele.target.id}`);
     if (ele.isIntersecting) {
-      console.log('work in');
       el.classList.add('active');
       ele.target.classList.add('your-active-class');
     } else {
-      console.log('work out');
       el.classList.remove('active');
       ele.target.classList.remove('your-active-class');
     }
