@@ -36,17 +36,17 @@ buildMenu(...sections);
 // If yes, add acctive class to navbar-item & section
 // otherwsie remove active class from navbar-item & section
 const options = {
-  root: null,
-  rootMargin: '100px',
-  threshold: [0, 0.5, 1.0],
+  rootMargin: '-300px 0px -300px 0px',
 };
 const cb = (entries, observer) => {
   entries.forEach((ele) => {
     const el = document.querySelector(`#nav-${ele.target.id}`);
-    if (ele.intersectionRatio === 1) {
+    if (ele.isIntersecting) {
+      console.log('work in');
       el.classList.add('active');
       ele.target.classList.add('your-active-class');
     } else {
+      console.log('work out');
       el.classList.remove('active');
       ele.target.classList.remove('your-active-class');
     }
@@ -61,7 +61,7 @@ sections.forEach((section) => observer.observe(section));
 // otherwise hide the button
 const options2 = {
   root: null,
-  rootMargin: '800px',
+  rootMargin: '800px 0px 0px 0px',
   threshold: [0, 0.5, 1.0],
 };
 
