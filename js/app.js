@@ -4,8 +4,12 @@ const sections = document.querySelectorAll('section');
 //Nav item append to
 const parent = document.getElementById('navbar__list');
 
-// Function to build menu
+//Create variable for .main__hero
+//Intersection observer is attached to .main__hero
+//to show or hide navbar & return to top button
 const mainHero = document.querySelector('.main__hero');
+
+//Create event listener for button return to the top.
 const btn = document.querySelector('#btn-top');
 btn.addEventListener('click', () => {
   mainHero.scrollIntoView({
@@ -15,6 +19,7 @@ btn.addEventListener('click', () => {
   });
 });
 
+// Function to build menu
 const buildMenu = (...sections) => {
   sections.forEach((ele) => {
     let newItem = document.createElement('li');
@@ -32,9 +37,10 @@ const buildMenu = (...sections) => {
 
 buildMenu(...sections);
 
-// Intersections - to watch if section is totally on screen.
+// Intersections - to watch if section is intersecting into view
 // If yes, add acctive class to navbar-item & section
 // otherwsie remove active class from navbar-item & section
+// rootMargin property reduce the view screen from top and bottom by 300px
 const options = {
   rootMargin: '-300px 0px -300px 0px',
 };
