@@ -1,63 +1,10 @@
-/**
- *
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- *
- * Dependencies: None
- *
- * JS Version: ES2015/ES6
- *
- * JS Standard: ESlint
- *
- */
-
-/**
- * Define Global Variables
- *
- */
-
-/**
- * End Global Variables
- * Start Helper Functions
- *
- */
-
-/**
- * End Helper Functions
- * Begin Main Functions
- *
- */
-
-// build the nav
-
-// Add class 'active' to section when near top of viewport
-
-// Scroll to anchor ID using scrollTO event
-
-/**
- * End Main Functions
- * Begin Events
- *
- */
-
-// Build menu
-
-// Scroll to section on link click
-
-// Set sections as active
-
-// # PAWEL REMARKS # //
-
-// <ul id="navbar__list"></ul>;
-
 // List of sections
 const sections = document.querySelectorAll('section');
+
 //Nav item append to
 const parent = document.getElementById('navbar__list');
-// Function to build menu
 
+// Function to build menu
 const mainHero = document.querySelector('.main__hero');
 const btn = document.querySelector('#btn-top');
 btn.addEventListener('click', () => {
@@ -85,17 +32,18 @@ const buildMenu = (...sections) => {
 
 buildMenu(...sections);
 
-//Intersections
+// Intersections - to watch if section is totally on screen.
+// If yes, add acctive class to navbar-item & section
+// otherwsie remove active class from navbar-item & section
 const options = {
   root: null,
-  rootMargin: '0px',
+  rootMargin: '100px',
   threshold: [0, 0.5, 1.0],
 };
 const cb = (entries, observer) => {
   entries.forEach((ele) => {
     const el = document.querySelector(`#nav-${ele.target.id}`);
     if (ele.intersectionRatio === 1) {
-      // const el = document.querySelector(`#nav-${ele.target.id}`);
       el.classList.add('active');
       ele.target.classList.add('your-active-class');
     } else {
@@ -106,7 +54,11 @@ const cb = (entries, observer) => {
 };
 
 const observer = new IntersectionObserver(cb, options);
+sections.forEach((section) => observer.observe(section));
 
+// Intersections for scroll to the top button.
+// if view is 800px lower than main hero section show the button
+// otherwise hide the button
 const options2 = {
   root: null,
   rootMargin: '800px',
@@ -124,6 +76,34 @@ const cb2 = (entries, observer) => {
 };
 
 const observer2 = new IntersectionObserver(cb2, options2);
-
-sections.forEach((section) => observer.observe(section));
 observer2.observe(mainHero);
+
+// Intersection for navbar
+// if not visible start timer 3sec to hide navbar
+// otherwise show navbar
+
+const navbar = document.querySelector('.page__header');
+let t;
+const timer = () => {
+  t = setTimeout(() => {
+    navbar.style.visibility = 'hidden';
+  }, 3000);
+};
+
+const cb3 = (entries, observer) => {
+  entries.forEach((ele) => {
+    if (ele.intersectionRatio === 1) {
+      clearTimeout(t);
+      navbar.style.visibility = 'visible';
+    } else {
+      window.addEventListener('scroll', () => {
+        clearTimeout(t);
+        navbar.style.visibility = 'visible';
+        timer();
+      });
+    }
+  });
+};
+
+const observer3 = new IntersectionObserver(cb3, options);
+observer3.observe(mainHero);
